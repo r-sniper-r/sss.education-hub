@@ -1,0 +1,154 @@
+/* --- Gold Dynamic Animated Registration Background --- */
+.auth-page-body {
+    background: linear-gradient(135deg, #121212, #2b210a, #4a380e, #0d0d0d);
+    background-size: 400% 400%;
+    animation: goldShimmer 12s ease infinite;
+}
+
+@keyframes goldShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.fixed-auth-box {
+    max-width: 440px;
+    margin: 50px auto;
+    background: rgba(18, 18, 18, 0.92);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+    color: #fff;
+    text-align: center;
+}
+
+.fixed-auth-box input, .fixed-auth-box select {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 2px solid #d4af37;
+    background: #111;
+    color: #ffd700;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.fixed-auth-box button {
+    background: linear-gradient(135deg, #d4af37, #aa7c11);
+    color: #000;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 90%;
+    margin-top: 8px;
+}
+
+/* --- TikTok-Style Vertical Snap Feed --- */
+.tiktok-feed-container {
+    height: 75vh;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    background: #000;
+    position: relative;
+    border-radius: 12px;
+}
+
+.tiktok-post-card {
+    height: 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    border-bottom: 2px solid #222;
+}
+
+.tiktok-media-element {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.tiktok-overlay-info {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    padding: 20px 10px 20px 10px;
+    color: #fff;
+}
+
+.tiktok-sidebar-actions {
+    position: absolute;
+    right: 15px;
+    bottom: 80px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+}
+
+.action-btn-circle {
+    background: rgba(30, 30, 30, 0.7);
+    border: none;
+    color: #ffd700;
+    font-size: 18px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    transition: 0.2s;
+}
+
+.action-btn-circle:hover {
+    transform: scale(1.1);
+    background: rgba(212, 175, 55, 0.4);
+}
+
+/* --- Live Stream Join Request Button (+) --- */
+.live-join-plus-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #ffd700, #b8860b);
+    color: #000;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+    z-index: 10;
+    transition: 0.3s;
+}
+
+.live-join-plus-btn:hover {
+    transform: rotate(90deg) scale(1.05);
+}

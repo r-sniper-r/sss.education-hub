@@ -1,0 +1,5 @@
+static/r_sniper.db
+uploads/*
+__pycache__/
+.env
+*.zip
