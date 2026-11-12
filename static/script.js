@@ -45,6 +45,8 @@ function toggleAuthMode(mode) {
 }
 
 function showForgotPasswordModal() {
+    document.getElementById('reset-section').style.display = 'none';
+    document.getElementById('forgot-email-input').value = '';
     document.getElementById('forgot-modal').style.display = 'flex';
 }
 
@@ -52,10 +54,10 @@ function closeForgotPasswordModal() {
     document.getElementById('forgot-modal').style.display = 'none';
 }
 
-async function submitForgotPassword() {
-    const email = document.getElementById('forgot-email-input').value;
-    if (!email) {
-        showBanner("Please enter your registered Gmail address.", true);
+async function submitForgotPasswordRequest() {
+    const email = document.getElementById('forgot-email-input').value.trim();
+    if (!email || !email.includes('@')) {
+        showBanner("Please enter a valid Gmail address.", true);
         return;
     }
     try {
@@ -66,20 +68,48 @@ async function submitForgotPassword() {
         });
         const data = await res.json();
         if (res.ok) {
-            showBanner(data.message);
-            closeForgotPasswordModal();
+            showBanner(data.message || "Reset code sent to your Gmail inbox!");
+            document.getElementById('reset-section').style.display = 'block';
         } else {
-            showBanner(data.detail || "Failed to send reset link.", true);
+            showBanner(data.detail || "Failed to send reset code.", true);
         }
     } catch (e) {
         showBanner("Network error connecting to server.", true);
     }
 }
 
+async function submitNewPassword() {
+    const email = document.getElementById('forgot-email-input').value.trim();
+    const code = document.getElementById('reset-code-input').value.trim();
+    const new_password = document.getElementById('reset-newpass-input').value.trim();
+
+    if (!code || !new_password) {
+        showBanner("Please fill in both the code and new password.", true);
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/reset-password', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ email, code, new_password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            showBanner("Password successfully reset! You can now login.");
+            closeForgotPasswordModal();
+        } else {
+            showBanner(data.detail || "Password reset failed.", true);
+        }
+    } catch (e) {
+        showBanner("Server error during password reset.", true);
+    }
+}
+
 async function requestOTP() {
-    const contact = document.getElementById('reg-gmail').value || document.getElementById('reg-phone').value;
-    if (!contact) {
-        showBanner("Please enter your Gmail or phone number first.", true);
+    const contact = document.getElementById('reg-gmail').value.trim();
+    if (!contact || !contact.includes('@')) {
+        showBanner("Please enter a valid Gmail address first.", true);
         return;
     }
     try {
@@ -90,7 +120,8 @@ async function requestOTP() {
         });
         const data = await res.json();
         if (res.ok) {
-            showBanner("Verification code successfully sent to your Gmail inbox!");
+            showBanner("Verification code dispatched to your Gmail inbox!");
+            document.getElementById('reg-code').value = data.code; // Auto-fills for convenience if needed
         } else {
             showBanner(data.detail || "Failed to send code.", true);
         }
@@ -101,17 +132,22 @@ async function requestOTP() {
 
 async function handleRegister() {
     const payload = {
-        name: document.getElementById('reg-name').value,
-        username: document.getElementById('reg-username').value,
-        gmail: document.getElementById('reg-gmail').value,
-        phone: document.getElementById('reg-phone').value,
+        name: document.getElementById('reg-name').value.trim(),
+        username: document.getElementById('reg-username').value.trim(),
+        gmail: document.getElementById('reg-gmail').value.trim(),
+        phone: document.getElementById('reg-phone').value.trim(),
         password: document.getElementById('reg-pass').value,
         gender: document.getElementById('reg-gender').value,
         age: parseInt(document.getElementById('reg-age').value) || 16,
-        grade: document.getElementById('reg-grade').value,
-        school: document.getElementById('reg-school').value,
-        code: document.getElementById('reg-code').value
+        grade: document.getElementById('reg-grade').value.trim(),
+        school: document.getElementById('reg-school').value.trim(),
+        code: document.getElementById('reg-code').value.trim()
     };
+
+    if (!payload.name || !payload.username || !payload.gmail || !payload.password || !payload.code) {
+        showBanner("Please fill in all required fields including the verification code.", true);
+        return;
+    }
 
     try {
         const res = await fetch('/api/register', {
@@ -132,8 +168,13 @@ async function handleRegister() {
 }
 
 async function handleLogin() {
-    const contact = document.getElementById('login-contact').value;
+    const contact = document.getElementById('login-contact').value.trim();
     const password = document.getElementById('login-pass').value;
+
+    if (!contact || !password) {
+        showBanner("Please enter your login details and password.", true);
+        return;
+    }
 
     try {
         const res = await fetch('/api/login', {
@@ -309,9 +350,6 @@ async function likePost(postId) {
 }
 
 function openCommentsModal(postId) {
-    const post = allPostsCache.find(p => p.id === postId);
-    if (!post) return;
-    
     let commentText = prompt("Add a comment to this post:");
     if (!commentText) return;
 
@@ -371,7 +409,6 @@ async function requestLiveJoin() {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ host_username: hostName, username: currentUser.username })
         });
-        const data = await res.json();
         if (res.ok) {
             showBanner("Join request sent to host successfully!");
         } else {

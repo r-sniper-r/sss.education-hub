@@ -3,53 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R-Sniper Enterprise Hub</title>
+    <title>R-Sniper Educational Hub</title>
     <link rel="stylesheet" href="/static/style.css">
-    <!-- FontAwesome for Social Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="auth-page-body" id="main-body">
-    <!-- Sticky Navigation -->
-    <nav class="sticky-nav" id="sticky-nav" style="display: none;">
-        <div class="nav-brand">🎯 R-Sniper Hub</div>
-        <div class="nav-links">
-            <button onclick="switchTab('subjects')">📚 Subjects</button>
-            <button onclick="switchTab('feed')">📱 Feed</button>
-            <button onclick="switchTab('lounge')">🎙️ Live Lounge</button>
-            <button onclick="switchTab('wallet')">💰 Wallet</button>
-            <button onclick="switchTab('profile')">👤 Profile</button>
-            <button onclick="logout()" style="background:#fee2e2; color:#dc2626;">🚪 Logout</button>
-        </div>
-    </nav>
-
-    <!-- Banner Notifications -->
+<body id="main-body" class="auth-page-body">
     <div id="banner" class="quiet-banner" style="display:none;" onclick="hideBanner()"></div>
 
-    <!-- Login / Register Card (Fixed & Gold-Themed Animated Background) -->
+    <!-- Auth Container -->
     <div id="auth-container" class="fixed-auth-box">
-        <h2>R-Sniper Academy</h2>
-        <div id="auth-tabs" style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <button id="tab-login-btn" onclick="toggleAuthMode('login')" class="active-tab" style="flex:1; padding: 8px;">Login</button>
-            <button id="tab-register-btn" onclick="toggleAuthMode('register')" style="flex:1; padding: 8px;">Register</button>
+        <h2>🎓 R-Sniper Hub</h2>
+        <div id="auth-tabs">
+            <button id="tab-login-btn" class="active-tab" onclick="toggleAuthMode('login')">Login</button>
+            <button id="tab-register-btn" onclick="toggleAuthMode('register')">Register</button>
         </div>
 
         <!-- Login Form -->
         <div id="login-form">
-            <input type="text" id="login-contact" placeholder="Username or Email">
+            <input type="text" id="login-contact" placeholder="Gmail or Username">
             <div class="password-group">
                 <input type="password" id="login-pass" placeholder="Password">
                 <button type="button" onclick="togglePassword('login-pass', this)">👁️</button>
             </div>
             <button onclick="handleLogin()">Login to Hub</button>
-            <p style="text-align: center; margin-top: 12px; cursor: pointer; color: #ffd700;" onclick="showForgotPasswordModal()">Forgot Password?</p>
+            <p style="margin-top:10px;"><a href="#" onclick="showForgotPasswordModal()" style="color:#ffd700; font-size:13px;">Forgot Password?</a></p>
         </div>
 
         <!-- Register Form -->
-        <div id="register-form" style="display: none;">
+        <div id="register-form" style="display:none;">
             <input type="text" id="reg-name" placeholder="Full Name">
-            <input type="text" id="reg-username" placeholder="Username">
-            <input type="email" id="reg-gmail" placeholder="Gmail Address">
-            <input type="text" id="reg-phone" placeholder="Phone Number (09...)">
+            <input type="text" id="reg-username" placeholder="Username (@handle)">
+            <input type="email" id="reg-gmail" placeholder="Gmail Address (Required)">
+            <input type="text" id="reg-phone" placeholder="Phone Number (Optional)">
             <div class="password-group">
                 <input type="password" id="reg-pass" placeholder="Password">
                 <button type="button" onclick="togglePassword('reg-pass', this)">👁️</button>
@@ -58,156 +43,168 @@
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
             </select>
-            <input type="number" id="reg-age" placeholder="Age">
-            <select id="reg-grade">
-                <option value="Grade 9">Grade 9</option>
-                <option value="Grade 10">Grade 10</option>
-                <option value="Grade 11">Grade 11</option>
-                <option value="Grade 12">Grade 12</option>
-            </select>
+            <input type="number" id="reg-age" placeholder="Age" value="16">
+            <input type="text" id="reg-grade" placeholder="Grade (e.g. Grade 11/12)">
             <input type="text" id="reg-school" placeholder="School Name (e.g. Sabian Secondary)">
             
             <div style="display:flex; gap:5px; margin-top:8px;">
-                <input type="text" id="reg-code" placeholder="6-Digit OTP Code" style="width:65%;">
-                <button type="button" onclick="requestOTP()" style="width:35%; margin-top:0; font-size:12px;">Get Code</button>
+                <input type="text" id="reg-code" placeholder="6-digit Gmail OTP" style="width:65%;">
+                <button type="button" onclick="requestOTP()" style="width:35%; font-size:11px; background:#d4af37; color:#000;">Send OTP</button>
             </div>
-            <button type="button" onclick="handleRegister()" style="background:#10b981; margin-top:12px;">Complete Registration</button>
+            <button onclick="handleRegister()">Complete Registration</button>
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
-    <div id="forgot-modal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:999;">
-        <div class="fixed-auth-box">
-            <h3>Reset Password</h3>
-            <p style="font-size: 13px; color: #ccc;">Enter your registered Gmail to receive a password reset link.</p>
-            <input type="email" id="forgot-email-input" placeholder="Your Registered Gmail">
-            <button onclick="submitForgotPassword()" style="margin-top: 10px;">Send Reset Link</button>
-            <button onclick="closeForgotPasswordModal()" style="background: transparent; border: 1px solid #555; color: #fff; margin-top: 8px;">Cancel</button>
+    <!-- Sticky Navigation -->
+    <nav id="sticky-nav" class="sticky-nav" style="display:none;">
+        <div class="nav-brand">✨ R-Sniper Hub</div>
+        <div class="nav-links">
+            <button onclick="switchTab('subjects')">📚 Subjects</button>
+            <button onclick="switchTab('feed')">📱 Feed</button>
+            <button onclick="switchTab('lounge')">🎙️ Lounge</button>
+            <button onclick="switchTab('wallet')">💰 Wallet</button>
+            <button onclick="switchTab('profile')">👤 Profile</button>
+            <button onclick="logout()" style="background:#ef4444; color:#fff;">Logout</button>
         </div>
-    </div>
+    </nav>
 
-    <!-- Main Content Container -->
-    <div id="app-container" class="content-area" style="display: none;">
+    <!-- Main App Container -->
+    <div id="app-container" class="content-area" style="display:none;">
         
-        <!-- 1. Subjects Section -->
-        <section id="sec-subjects" class="app-section">
-            <h2>Core Academic Subjects (Grades 9–12)</h2>
-            <p>Select a subject to access Ethiopian national curriculum modules:</p>
+        <!-- Subjects Section -->
+        <div id="sec-subjects" class="app-section">
+            <h2>📚 Ethiopian National Curriculum</h2>
+            <p>Select your subject module for interactive revision units, quizzes, and chapter summaries.</p>
             <div class="subject-grid">
-                <div class="subj-card" onclick="openSubject('Biology')">🧬 Biology</div>
-                <div class="subj-card" onclick="openSubject('Physics')">⚡ Physics</div>
-                <div class="subj-card" onclick="openSubject('Chemistry')">🧪 Chemistry</div>
-                <div class="subj-card" onclick="openSubject('English')">📖 English</div>
-                <div class="subj-card" onclick="openSubject('Mathematics')">📐 Mathematics</div>
-                <div class="subj-card" onclick="openSubject('Aptitude')">💡 Aptitude</div>
+                <div class="subj-card" onclick="openSubject('Mathematics')">Mathematics</div>
+                <div class="subj-card" onclick="openSubject('Physics')">Physics</div>
+                <div class="subj-card" onclick="openSubject('Chemistry')">Chemistry</div>
+                <div class="subj-card" onclick="openSubject('Biology')">Biology</div>
+                <div class="subj-card" onclick="openSubject('English')">English</div>
+                <div class="subj-card" onclick="openSubject('Civics')">Civics</div>
+                <div class="subj-card" onclick="openSubject('ICT')">ICT</div>
+                <div class="subj-card" onclick="openSubject('Geography')">Geography</div>
             </div>
-            <div id="subject-detail-view" class="card-box" style="display:none;"></div>
-        </section>
+            <div id="subject-detail-view" class="card-box" style="display:none; margin-top:20px;"></div>
+        </div>
 
-        <!-- 2. TikTok-Style Scrollable Feed Section -->
-        <section id="sec-feed" class="app-section" style="display:none; padding:0;">
-            <div class="card-box" style="margin: 15px; background: rgba(20,20,20,0.9); border: 1px solid #d4af37;">
-                <h4>Create New Post</h4>
+        <!-- TikTok Feed Section -->
+        <div id="sec-feed" class="app-section" style="display:none;">
+            <h2>📱 Educational TikTok Feed</h2>
+            <div class="post-nav-bar">
+                <button id="filt-all" class="active-filter" onclick="filterFeed('all')">All</button>
+                <button id="filt-photo" onclick="filterFeed('photo')">Photos</button>
+                <button id="filt-video" onclick="filterFeed('video')">Videos</button>
+                <button id="filt-audio" onclick="filterFeed('audio')">Audio</button>
+                <button id="filt-text" onclick="filterFeed('text')">Notes</button>
+            </div>
+
+            <!-- Create Post Box -->
+            <div class="card-box" style="background:#111; color:#fff; border:1px solid #d4af37;">
+                <h4>Create New Study Post</h4>
                 <input type="text" id="post-title" placeholder="Post Title / Topic">
-                <select id="post-type">
-                    <option value="text">Text Note</option>
+                <select id="post-type" style="background:#222; color:#fff; border:1px solid #d4af37; padding:8px; width:90%; border-radius:8px; margin:8px 0;">
+                    <option value="text">Text / Note</option>
                     <option value="photo">Photo</option>
                     <option value="video">Video</option>
                     <option value="audio">Audio</option>
                 </select>
-                <textarea id="post-content" placeholder="Share your notes, question, or explanation..."></textarea>
-                <input type="file" id="post-file" style="margin:8px 0; width:100%; color:#ffd700;">
-                <button onclick="publishPost()">Publish to Feed</button>
-            </div>
-            
-            <div class="post-nav-bar" style="padding: 0 15px;">
-                <button onclick="filterFeed('all')" class="active-filter" id="filt-all">All Posts</button>
-                <button onclick="filterFeed('photo')" id="filt-photo">Photos</button>
-                <button onclick="filterFeed('video')" id="filt-video">Videos</button>
-                <button onclick="filterFeed('audio')" id="filt-audio">Audios</button>
-                <button onclick="filterFeed('text')" id="filt-text">Texts</button>
+                <textarea id="post-content" placeholder="Share your educational note or question..." style="width:90%; background:#222; color:#fff; border:1px solid #d4af37; padding:8px; border-radius:8px;"></textarea>
+                <input type="file" id="post-file" style="margin:8px 0; color:#fff;">
+                <button onclick="publishPost()" style="background:linear-gradient(135deg, #d4af37, #aa7c11); color:#000;">Publish Post</button>
             </div>
 
-            <!-- Vertical TikTok-Style Snap Feed -->
-            <div id="feed-stream" class="tiktok-feed-container"></div>
-        </section>
+            <!-- Snap Feed Stream -->
+            <div id="feed-stream" class="tiktok-feed-container" style="margin-top:20px;"></div>
+        </div>
 
-        <!-- 3. Live Study Lounge Section (Interactive '+' Join Request) -->
-        <section id="sec-lounge" class="app-section" style="display:none;">
-            <h2>4-Person Live Study Lounge</h2>
-            <p>Collaborate in real-time study sessions. Joining is open to all students; hosting requires at least 5 followers.</p>
+        <!-- Lounge Section -->
+        <div id="sec-lounge" class="app-section" style="display:none;">
+            <h2>🎙️ Real-Time Live Study Lounges</h2>
+            <p>Host study sessions, collaborate with peers, and prepare for exams together.</p>
             <div class="wallet-display-card">
-                <strong>Your Follower Count:</strong> <span id="lounge-follower-count">0</span> / 5 Required to Go Live
+                <p><strong>Follower Status:</strong> <span id="lounge-follower-count">0</span> / 5 followers required to host.</p>
+                <button id="go-live-btn" onclick="triggerGoLive()">Go Live Now</button>
             </div>
-            <button id="go-live-btn" onclick="triggerGoLive()" style="background:#ef4444;">Start Live Session (Go Live)</button>
-            
-            <div class="room-grid" style="position: relative; min-height: 250px; margin-top: 20px;">
-                <div class="room-slot">Seat 1: <span id="slot-1">Empty</span></div>
-                <div class="room-slot">Seat 2: <span id="slot-2">Empty</span></div>
-                <div class="room-slot">Seat 3: <span id="slot-3">Empty</span></div>
-                <div class="room-slot">Seat 4: <span id="slot-4">Empty</span></div>
-
-                <!-- Interactive '+' Join Request Button -->
-                <button class="live-join-plus-btn" onclick="requestLiveJoin()" title="Request to Join Live">
-                    +
-                </button>
+            <div style="margin-top:20px;">
+                <button onclick="requestLiveJoin()" style="background:#0ea5e9;">Request to Join Peer's Live Stream</button>
             </div>
-
-            <!-- Host Approval Queue -->
-            <div id="host-approval-panel" style="margin-top: 20px; display: none; background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #d4af37;">
-                <h4>Pending Join Requests</h4>
+            <div id="host-approval-panel" class="card-box" style="display:none; margin-top:15px;">
+                <h4>Host Control Panel: Join Requests</h4>
                 <div id="requests-list"></div>
             </div>
-        </section>
+        </div>
 
-        <!-- 4. Wallet Section -->
-        <section id="sec-wallet" class="app-section" style="display:none;">
-            <h2>Student Wallet & Rewards</h2>
+        <!-- Wallet Section -->
+        <div id="sec-wallet" class="app-section" style="display:none;">
+            <h2>💰 Student Rewards & Wallet</h2>
             <div class="wallet-display-card">
                 <h3>Current Balance</h3>
-                <p style="font-size: 28px; font-weight: bold; color: #059669; margin: 5px 0;" id="wallet-balance">0.00 ETB</p>
-                <small>Earn rewards by sharing study materials and helping peers.</small>
+                <p id="wallet-balance" style="font-size:24px; font-weight:bold; color:#059669;">0.00 ETB</p>
+                <button onclick="showBanner('Withdrawal request submitted successfully!')">Withdraw Funds</button>
             </div>
-        </section>
+        </div>
 
-        <!-- 5. Profile & Settings Section -->
-        <section id="sec-profile" class="app-section" style="display:none;">
-            <h2>My Student Profile</h2>
-            <div class="card-box profile-stats">
-                <p><strong>Name:</strong> <span id="prof-name"></span></p>
-                <p><strong>Username:</strong> @<span id="prof-username"></span></p>
-                <p><strong>Grade & School:</strong> <span id="prof-grade"></span> <span id="prof-school"></span></p>
-                <p><strong>Bio:</strong> <span id="prof-bio-text">No bio yet.</span></p>
-                <p><strong>Privacy:</strong> <span id="prof-privacy-text">Public</span></p>
-                <p><strong>Followers:</strong> <span id="prof-followers-cnt">0</span></p>
-                <p><strong>Following:</strong> <span id="prof-following-cnt">0</span></p>
-                
-                <button onclick="openSettingsModal()" style="margin-top: 10px; background: #d4af37; color: #000; font-weight: bold;">Edit Profile & Privacy</button>
+        <!-- Profile Section -->
+        <div id="sec-profile" class="app-section" style="display:none;">
+            <h2>👤 User Profile & Connections</h2>
+            <div class="card-box">
+                <h3 id="prof-name">Name</h3>
+                <p><strong>Username:</strong> <span id="prof-username">@username</span></p>
+                <p><strong>Grade:</strong> <span id="prof-grade"></span> | <strong>School:</strong> <span id="prof-school"></span></p>
+                <p><strong>Bio:</strong> <span id="prof-bio-text"></span></p>
+                <p><strong>Privacy:</strong> <span id="prof-privacy-text"></span></p>
+                <div style="display:flex; gap:15px; margin:10px 0;">
+                    <span><strong>Followers:</strong> <span id="prof-followers-cnt">0</span></span>
+                    <span><strong>Following:</strong> <span id="prof-following-cnt">0</span></span>
+                </div>
+                <button onclick="openSettingsModal()" style="background:#d4af37; color:#000;">Edit Profile & Settings</button>
+            </div>
 
-                <hr style="margin: 15px 0; border:0; border-top:1px solid #444;">
-                <h4>Search Registered Users</h4>
-                <input type="text" id="search-profile-input" placeholder="Search exact registered username..." oninput="searchRegisteredUsers(this.value)">
+            <div class="card-box" style="margin-top:20px;">
+                <h4>Find & Connect with Students</h4>
+                <input type="text" id="search-profile-input" placeholder="Search by username or name..." oninput="searchRegisteredUsers(this.value)">
                 <div id="searched-profile-result" style="margin-top:10px;"></div>
             </div>
-        </section>
+        </div>
 
     </div>
 
-    <!-- User Settings Modal -->
-    <div id="settings-modal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; z-index:999;">
-        <div class="fixed-auth-box">
-            <h3>Edit Profile & Privacy</h3>
-            <label style="font-size: 12px; color: #aaa;">Bio:</label>
-            <textarea id="settings-bio" placeholder="Tell others about your studies..." style="width:100%; padding:8px; background:#111; color:#fff; border:1px solid #d4af37; border-radius:4px; margin-top:4px;"></textarea>
+    <!-- Forgot Password Modal -->
+    <div id="forgot-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
+        <div class="fixed-auth-box" style="width:90%; max-width:400px; text-align:left;">
+            <h3 style="text-align:center;">Reset Password</h3>
+            <p style="font-size:13px; color:#aaa; text-align:center;">Enter your registered Gmail address to receive your password reset code.</p>
             
-            <label style="font-size: 12px; color: #aaa; margin-top: 10px; display:block;">Account Privacy:</label>
-            <select id="settings-privacy" style="width:100%; padding:8px; background:#111; color:#ffd700; border:1px solid #d4af37; border-radius:4px; margin-top:4px;">
+            <input type="email" id="forgot-email-input" placeholder="Your registered Gmail" style="width:100%; margin-bottom:10px;">
+            <button onclick="submitForgotPasswordRequest()" style="background:#d4af37; color:#000; width:100%; margin-bottom:15px;">Send Reset Code</button>
+
+            <div id="reset-section" style="display:none;">
+                <input type="text" id="reset-code-input" placeholder="Enter 6-digit Reset Code" style="width:100%; margin-bottom:10px;">
+                <input type="password" id="reset-newpass-input" placeholder="Enter New Password" style="width:100%; margin-bottom:10px;">
+                <button onclick="submitNewPassword()" style="background:#10b981; color:#fff; width:100%;">Confirm New Password</button>
+            </div>
+
+            <button onclick="closeForgotPasswordModal()" style="background:#444; color:#fff; width:100%; margin-top:10px;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
+        <div class="fixed-auth-box" style="width:90%; max-width:400px; text-align:left;">
+            <h3 style="text-align:center;">Profile & Privacy Settings</h3>
+            <label style="font-size:13px;">Bio:</label>
+            <textarea id="settings-bio" style="width:100%; background:#111; color:#fff; border:1px solid #d4af37; border-radius:6px; padding:8px; margin-bottom:10px;"></textarea>
+            
+            <label style="font-size:13px;">Account Privacy:</label>
+            <select id="settings-privacy" style="width:100%; background:#111; color:#ffd700; border:1px solid #d4af37; border-radius:6px; padding:8px; margin-bottom:15px;">
                 <option value="public">Public</option>
+                <option value="followers">Followers Only</option>
                 <option value="private">Private</option>
             </select>
-            
-            <button onclick="saveProfileSettings()" style="margin-top: 15px;">Save Changes</button>
-            <button onclick="closeSettingsModal()" style="background: transparent; border: 1px solid #555; color: #fff; margin-top: 8px;">Close</button>
+
+            <button onclick="saveProfileSettings()" style="background:#d4af37; color:#000; width:100%;">Save Changes</button>
+            <button onclick="closeSettingsModal()" style="background:#444; color:#fff; width:100%; margin-top:5px;">Cancel</button>
         </div>
     </div>
 
